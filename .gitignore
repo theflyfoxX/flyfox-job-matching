@@ -1,28 +1,46 @@
-# envs
+# -------------------------
+# Virtual environments
+# -------------------------
 venv/
+wrangler-env/
 .env
 .env.*
+.venv/
 
-# python noise
+# -------------------------
+# Python cache & build
+# -------------------------
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 *.egg-info/
 .eggs/
+build/
+dist/
 .cache/
 .mypy_cache/
 .pytest_cache/
+coverage/
+htmlcov/
 
-# IDE/OS
+# -------------------------
+# IDE/OS files
+# -------------------------
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
 
-# logs
+# -------------------------
+# Logs
+# -------------------------
 logs/
 *.log
 
-# data & models (keep small samples only)
+# -------------------------
+# Data & models
+# -------------------------
 data/
 *.csv
 *.csv.zip
@@ -30,12 +48,18 @@ data/
 *.parquet
 *.feather
 *.xlsx
+*.xls
+*.h5
 models/
 *.pkl
 *.joblib
 *.pt
 *.onnx
 
-# binaries
+# -------------------------
+# Binaries
+# -------------------------
 *.dll
 *.lib
+*.so
+*.dylib
