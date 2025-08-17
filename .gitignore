@@ -1,0 +1,41 @@
+# envs
+venv/
+.env
+.env.*
+
+# python noise
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.cache/
+.mypy_cache/
+.pytest_cache/
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# logs
+logs/
+*.log
+
+# data & models (keep small samples only)
+data/
+*.csv
+*.csv.zip
+*.tsv
+*.parquet
+*.feather
+*.xlsx
+models/
+*.pkl
+*.joblib
+*.pt
+*.onnx
+
+# binaries
+*.dll
+*.lib
