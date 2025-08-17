@@ -58,7 +58,6 @@ def label_matches(views_df, jobs_df, max_negatives_per_applicant=5):
 
 
 def main():
-    # Load
     df_jobs = load_csv("Combined_Jobs", FILES["jobs"])
     df_experience = load_csv("Experience", FILES["experience"])
     df_views = load_csv("Job_Views", FILES["views"])
@@ -67,7 +66,6 @@ def main():
     
     df_job_text = df_job_text.drop(columns=['Unnamed: 0'], errors='ignore')
 
-    # Inspect
     inspect_df(df_jobs, "Jobs")
     inspect_df(df_experience, "Experience")
     inspect_df(df_views, "Views")

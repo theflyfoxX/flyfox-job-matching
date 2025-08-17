@@ -1,6 +1,5 @@
 import os
 import re
-import math
 import logging
 from datetime import datetime
 
@@ -22,9 +21,6 @@ EXPERIENCE_PATH = os.path.join(PROJ_ROOT, "Experience.csv")
 OUTPUT_PATH = os.path.join(DATA_DIR, "features.csv")
 
 
-# -----------------------
-# Small utils
-# -----------------------
 STOPWORDS = set("""
 a an and are as at be by for from has have if in into is it its of on or that the to with
 """.split())
@@ -36,10 +32,13 @@ def safe_lower(s):
         return ""
     return str(s).lower()
 
+# converts a string into a list of cleaned  words
 def tokenize(text: str):
     tokens = [t for t in TOKEN_RE.findall(safe_lower(text)) if t not in STOPWORDS and len(t) > 2]
     return tokens
 
+# gives a number between 0 and 1 showing how similar two sets of tokens are
+# Jaccard similarity: |A ∩ B| / |A ∪ B|
 def jaccard_overlap(a_tokens, b_tokens):
     A, B = set(a_tokens), set(b_tokens)
     if not A and not B:
@@ -59,7 +58,8 @@ def parse_date_safe(val):
         return pd.to_datetime(val, errors="coerce").to_pydatetime()
     except Exception:
         return None
-
+    
+# compare how many years between two dates
 def years_between(start, end):
     if start is None or end is None:
         return 0.0

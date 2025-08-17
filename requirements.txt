@@ -7,3 +7,5 @@ transformers
 fastapi
 uvicorn
 psycopg2-binary
+gensim
+sentence-transformers
