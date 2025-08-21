@@ -50,11 +50,7 @@ data/
 *.xlsx
 *.xls
 *.h5
-models/
-*.pkl
-*.joblib
-*.pt
-*.onnx
+
 
 # -------------------------
 # Binaries
