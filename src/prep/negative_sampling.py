@@ -3,6 +3,7 @@
 import pandas as pd
 import random
 from typing import Set
+from src.utils import logging_util
 
 
 def generate_negatives(
@@ -11,10 +12,7 @@ def generate_negatives(
     positives_df: pd.DataFrame,
     neg_per_pos: int = 3
 ) -> pd.DataFrame:
-    """
-    Generate (job_id, applicant_id, label=0) for pairs that don’t exist in positives.
-    """
-    print("[*] Generating negative samples...")
+    logging_util.log_info("[*] Generating negative samples...")
 
     job_ids = jobs_df["Job.ID"].unique()
     applicant_ids = applicants_df["Applicant.ID"].unique()
@@ -33,7 +31,7 @@ def generate_negatives(
             negatives.add((j, a))
         attempts += 1
 
-    print(f"[✓] Generated {len(negatives)} negative samples.")
+    logging_util.log_info(f"[✓] Generated {len(negatives)} negative samples.")
 
     df_neg = pd.DataFrame(list(negatives), columns=["Job.ID", "Applicant.ID"])
     df_neg["label"] = 0
@@ -59,4 +57,4 @@ if __name__ == "__main__":
     # Combine and save
     full_df = pd.concat([positives, negatives], ignore_index=True)
     full_df.to_csv("data/interim/labeled_applicant_job_pairs.csv", index=False)
-    print("[✓] Combined labeled dataset saved: data/interim/labeled_applicant_job_pairs.csv")
+    logging_util.log_info("[✓] Combined labeled dataset saved: data/interim/labeled_applicant_job_pairs.csv")

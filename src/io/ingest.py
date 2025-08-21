@@ -2,6 +2,7 @@
 
 import os
 import pandas as pd
+from src.utils import logging_util
 
 RAW_DIR = os.path.join("data", "raw")
 
@@ -51,7 +52,7 @@ def load_csv(file_key: str) -> pd.DataFrame:
     if missing:
         raise ValueError(f"[✗] {file_key}: Missing columns: {missing}")
 
-    print(f"[✓] Loaded {file_key}: {df.shape[0]} rows, {df.shape[1]} cols")
+    logging_util.log_info(f"[✓] Loaded {file_key}: {df.shape[0]} rows, {df.shape[1]} cols")
     return df
 
 
