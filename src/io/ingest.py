@@ -1,10 +1,10 @@
-# src/io/ingest.py
-
 import os
 import pandas as pd
 from src.utils import logging_util
 
-RAW_DIR = os.path.join("data", "raw")
+# Resolve path to <project-root>/data/raw
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+RAW_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
 
 FILES = {
     "jobs": "Combined_Jobs_Final.csv",
@@ -35,7 +35,6 @@ EXPECTED_COLUMNS = {
 }
 
 
-
 def load_csv(file_key: str) -> pd.DataFrame:
     """Load and validate a raw CSV file."""
     file_path = os.path.join(RAW_DIR, FILES[file_key])
@@ -56,14 +55,12 @@ def load_csv(file_key: str) -> pd.DataFrame:
     return df
 
 
-
 def load_all_raw():
     """Load and validate all raw datasets."""
-    datasets = {}
-    for key in FILES:
-        datasets[key] = load_csv(key)
-    return datasets  # dict of DataFrames
+    return {key: load_csv(key) for key in FILES}
 
 
 if __name__ == "__main__":
-    data = load_all_raw()
+    datasets = load_all_raw()
+    for k, v in datasets.items():
+        print(f"{k}: {v.shape}")

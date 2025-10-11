@@ -1,9 +1,13 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
+
 import pandas as pd
 import numpy as np
 import joblib
 import logging
 from features.build_features import compute_embedding_similarity, add_structured_features
-import os
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -31,7 +35,7 @@ def main():
 
     # Merge metadata into the pairs dataframe
     df = pairs.copy()
-    df = df.merge(job_data, on="Job.ID", how="left")
+    df = df.merge(job_data[["Job.ID", "City", "State.Code", "text"]], on="Job.ID", how="left")
     df = df.merge(exp_latest[["Applicant.ID", "exp_last_city", "exp_last_state"]], on="Applicant.ID", how="left")
 
     # Load embeddings

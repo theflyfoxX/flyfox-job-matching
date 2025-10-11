@@ -1,10 +1,10 @@
-# src/prep/negative_sampling.py
-
+import os
 import pandas as pd
 import random
 from typing import Set
-from src.utils import logging_util
 
+from src.utils import logging_util
+from src.io.ingest import load_all_raw
 
 def generate_negatives(
     jobs_df: pd.DataFrame,
@@ -38,23 +38,25 @@ def generate_negatives(
     return df_neg
 
 if __name__ == "__main__":
-    from src.io.ingest import load_all_raw
+    # Resolve path to project root
+    PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    INTERIM_DIR = os.path.join(PROJECT_ROOT, "data", "interim")
+    LABELED_PATH = os.path.join(INTERIM_DIR, "labeled_applicant_job_pairs.csv")
 
-    # Load raw data
+    # Load raw data and positive samples
     data = load_all_raw()
-
-    # Load positives from ground_truth
-    positives = pd.read_csv("data/interim/labeled_applicant_job_pairs.csv")
+    positives = pd.read_csv(LABELED_PATH)
 
     # Generate negatives
     negatives = generate_negatives(
         jobs_df=data["jobs"],
         applicants_df=data["experience"],
         positives_df=positives,
-        neg_per_pos=3  # can tune later
+        neg_per_pos=3
     )
 
     # Combine and save
     full_df = pd.concat([positives, negatives], ignore_index=True)
-    full_df.to_csv("data/interim/labeled_applicant_job_pairs.csv", index=False)
-    logging_util.log_info("[✓] Combined labeled dataset saved: data/interim/labeled_applicant_job_pairs.csv")
+    os.makedirs(INTERIM_DIR, exist_ok=True)
+    full_df.to_csv(LABELED_PATH, index=False)
+    logging_util.log_info(f"[✓] Combined labeled dataset saved: {LABELED_PATH}")

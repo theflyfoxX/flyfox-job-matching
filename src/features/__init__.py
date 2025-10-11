@@ -5,6 +5,7 @@ import numpy as np
 import os
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+from src.utils import logging_util
 
 
 def embed_texts(texts: list[str], model_name: str = 'all-MiniLM-L6-v2') -> np.ndarray:
@@ -14,18 +15,18 @@ def embed_texts(texts: list[str], model_name: str = 'all-MiniLM-L6-v2') -> np.nd
 
 
 def generate_job_embeddings(jobs_df: pd.DataFrame, save_path: str) -> pd.DataFrame:
-    print("[*] Generating job embeddings...")
+    logging_util.log_info("[*] Generating job embeddings...")
     texts = (jobs_df["Title"].fillna("") + " " + jobs_df["Job.Description"].fillna("")).tolist()
     embeddings = embed_texts(texts)
     job_emb_df = pd.DataFrame(embeddings)
     job_emb_df.insert(0, "Job.ID", jobs_df["Job.ID"].values)
     job_emb_df.to_parquet(save_path, index=False)
-    print(f"[✓] Saved job embeddings to {save_path}")
+    logging_util.log_info(f"[✓] Saved job embeddings to {save_path}")
     return job_emb_df
 
 
 def generate_applicant_embeddings(exp_df: pd.DataFrame, save_path: str) -> pd.DataFrame:
-    print("[*] Generating applicant embeddings...")
+    logging_util.log_info("[*] Generating applicant embeddings...")
 
     # Sort experience and keep latest per applicant
     latest_exp = (
@@ -43,5 +44,5 @@ def generate_applicant_embeddings(exp_df: pd.DataFrame, save_path: str) -> pd.Da
     applicant_emb_df = pd.DataFrame(embeddings)
     applicant_emb_df.insert(0, "Applicant.ID", latest_exp["Applicant.ID"].values)
     applicant_emb_df.to_parquet(save_path, index=False)
-    print(f"[✓] Saved applicant embeddings to {save_path}")
+    logging_util.log_info(f"[✓] Saved applicant embeddings to {save_path}")
     return applicant_emb_df

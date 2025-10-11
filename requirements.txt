@@ -9,3 +9,5 @@ uvicorn
 psycopg2-binary
 gensim
 sentence-transformers
+pyarrow
+fastparquet
