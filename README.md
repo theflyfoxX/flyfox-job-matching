@@ -1,137 +1,181 @@
 # 🦊 Flyfox Job Matching Engine
 
-**Flyfox** is a machine learning-driven job matching engine that connects applicants with the most suitable job opportunities. It leverages **natural language processing**, **text embeddings**, and **structured data features** to predict compatibility between candidates and job postings.
-
----
+A machine learning-driven job matching engine that connects applicants with the most suitable job opportunities using natural language processing, text embeddings, and structured data features.
 
 ## 🚀 Key Features
 
-- 🔄 **Data Ingestion**: Load applicant profiles, job descriptions, and labeled pairs.
-- 🧠 **Feature Engineering**: Combine text-based embeddings and structured metadata (e.g., location, experience).
-- 🎯 **Model Training**: Train predictive models (e.g., logistic regression, XGBoost, LightGBM).
-- 📈 **Prediction**: Rank jobs for a given applicant or vice versa.
-- 🌐 **API Integration** (optional): Serve predictions using FastAPI.
+- **🔄 Data Ingestion**: Load applicant profiles, job descriptions, and labeled pairs
+- **🧠 Feature Engineering**: Combine text-based embeddings and structured metadata (location, experience, skills)
+- **🎯 Model Training**: Train predictive models using logistic regression, XGBoost, and LightGBM
+- **📈 Prediction**: Rank jobs for applicants or find best-fit candidates for positions
+- **🌐 API Integration**: Serve predictions via FastAPI (optional)
 
----
+## 📋 Table of Contents
 
-## 📁 Project Structure
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Data Requirements](#data-requirements)
+- [Dependencies](#dependencies)
+- [API Documentation](#api-documentation)
+- [License](#license)
+- [Author](#author)
 
-flyfox/
-├── config.yaml # Central configuration (if used)
-├── predict.py # Main script for running predictions
-├── test.py # Quick test runner
-├── requirements.txt # Python dependencies
-├── pyproject.toml # Project metadata (optional)
-│
-├── data/
-│ ├── raw/ # Raw CSVs (Jobs, Applicants, Experience, Interests)
-│ ├── interim/ # Processed but not finalized data (e.g., labeled pairs)
-│ └── features/ # Final feature matrix for training/prediction
-│
-├── embeddings/
-│ ├── jobs/ # Job embedding dict (.npy)
-│ └── applicants/ # Applicant embedding dict (.npy)
-│
-├── features/ # Feature engineering scripts
-│ └── build_features.py
-│
-├── src/
-│ ├── features/ # Feature builders (structured + embedding-based)
-│ ├── io/ # File loaders and savers
-│ ├── models/ # Model training and evaluation logic
-│ ├── prep/ # Helper utilities for preparing data
-│ ├── preprocessing/ # Text/vector pre-processing (if used)
-│ ├── utils/ # Shared utilities (loggers, metrics, etc.)
-│ └── api/ # FastAPI application (optional)
-│
-├── docker/ # Docker configs (optional)
-└── wrangler-env/ # Virtual environment (not tracked in Git)
+## 🛠️ Installation
 
-yaml
-Copy code
-
----
-
-## ⚙️ Installation
-
-1. **Clone the repository**
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/theflyfoxX/flyfox-job-matching.git
 cd flyfox-job-matching
-Create and activate a virtual environment
+```
 
-bash
-Copy code
+### 2. Create Virtual Environment
+
+```bash
+# Create virtual environment
 python -m venv wrangler-env
-./wrangler-env/Scripts/activate   # On Windows
-# source wrangler-env/bin/activate   # On macOS/Linux
-Install dependencies
 
-bash
-Copy code
+# Activate on Windows
+./wrangler-env/Scripts/activate
+
+# Activate on macOS/Linux
+source wrangler-env/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
-🧪 Usage
-▶️ Run Predictions
-Use the main script to generate predictions:
+```
 
-bash
-Copy code
+## 📁 Project Structure
+
+```
+flyfox/
+├── config.yaml                 # Central configuration
+├── predict.py                  # Main prediction script
+├── test.py                     # Test runner
+├── requirements.txt            # Python dependencies
+├── pyproject.toml             # Project metadata
+│
+├── data/
+│   ├── raw/                   # Raw CSV files
+│   │   ├── Combined_Jobs_Final.csv
+│   │   ├── Experience.csv
+│   │   ├── Positions_Of_Interest.csv
+│   │   └── labeled_applicant_job_pairs.csv
+│   ├── interim/               # Processed intermediate data
+│   └── features/              # Final feature matrices
+│
+├── embeddings/
+│   ├── jobs/                  # Job embeddings (.npy)
+│   └── applicants/            # Applicant embeddings (.npy)
+│
+├── features/
+│   └── build_features.py      # Feature engineering scripts
+│
+├── src/
+│   ├── features/              # Feature builders
+│   ├── io/                    # File I/O utilities
+│   ├── models/                # Model training & evaluation
+│   ├── prep/                  # Data preparation helpers
+│   ├── preprocessing/         # Text/vector preprocessing
+│   ├── utils/                 # Shared utilities
+│   └── api/                   # FastAPI application
+│
+└── docker/                    # Docker configurations
+```
+
+## 🚀 Usage
+
+### Generate Predictions
+
+Run the main prediction script:
+
+```bash
 python predict.py
-🧪 Run Tests
-Quickly test the pipeline (if test.py is set up):
+```
 
-bash
-Copy code
+### Run Tests
+
+Execute the test suite:
+
+```bash
 python test.py
-🌐 Serve API
-(Optional – if FastAPI app is implemented):
+```
 
-bash
-Copy code
-uvicorn src.api:app --reload
-🧠 Dependencies
-Main libraries used in this project:
+## 📊 Data Requirements
 
-pandas, numpy
+### Required Files
 
-scikit-learn
+Place the following files in `data/raw/`:
 
-lightgbm, xgboost
+- `Combined_Jobs_Final.csv` - Job postings with descriptions and metadata
+- `Experience.csv` - Applicant work experience records
+- `Positions_Of_Interest.csv` - Applicant job preferences
+- `labeled_applicant_job_pairs.csv` - Training data with applicant-job matches
 
-sentence-transformers
+### Required Embeddings
 
-torch, transformers
+Pre-generated embeddings must be stored as `.npy` dictionary files:
 
-fastapi, uvicorn
+- `embeddings/jobs/embeddings_dict.npy` - Job description embeddings
+- `embeddings/applicants/embeddings_dict.npy` - Applicant profile embeddings
 
-pyarrow, fastparquet
+## 📦 Dependencies
 
-gensim (if applicable)
+### Core Libraries
 
-psycopg2-binary (if Postgres used)
+- **Data Processing**: `pandas`, `numpy`, `pyarrow`, `fastparquet`
+- **Machine Learning**: `scikit-learn`, `lightgbm`, `xgboost`
+- **NLP & Embeddings**: `sentence-transformers`, `transformers`, `torch`, `gensim`
+- **API**: `fastapi`, `uvicorn`
+- **Database**: `psycopg2-binary` (PostgreSQL support)
 
-📌 Notes
-Embeddings must be generated beforehand and stored as .npy dictionaries:
+See `requirements.txt` for complete list with versions.
 
-embeddings/jobs/embeddings_dict.npy
 
-embeddings/applicants/embeddings_dict.npy
+## 🧪 Testing
 
-Data files expected in data/raw/:
+The project includes comprehensive testing:
 
-Combined_Jobs_Final.csv
+```bash
+# Run all tests
+python test.py
 
-Experience.csv
+# Run specific test modules
+pytest tests/test_features.py
+pytest tests/test_models.py
+```
 
-Positions_Of_Interest.csv
+## 🔧 Configuration
 
-labeled_applicant_job_pairs.csv
+Edit `config.yaml` to customize:
 
-📜 License
-MIT License. See LICENSE for full details.
+- Model parameters
+- Feature engineering settings
+- API configuration
+- File paths and data sources
 
-👤 Author
-Ali Rassas
-📧 Email: rassasali01@gmail.com
-🔗 GitHub: @theflyfoxX
+## 📝 Notes
+
+- Embeddings must be generated before running predictions
+- Ensure all required data files are present in `data/raw/`
+- The virtual environment (`wrangler-env/`) is excluded from version control
+- GPU acceleration recommended for embedding generation and model training
+
+## 📜 License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## 👤 Author
+
+**Ali Rassas**
+
+- 📧 Email: [rassasali01@gmail.com](mailto:rassasali01@gmail.com)
+- 🔗 GitHub: [@theflyfoxX](https://github.com/theflyfoxX)
+
+
+---
+
