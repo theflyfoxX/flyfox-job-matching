@@ -10,16 +10,6 @@ A machine learning-driven job matching engine that connects applicants with the 
 - **📈 Prediction**: Rank jobs for applicants or find best-fit candidates for positions
 - **🌐 API Integration**: Serve predictions via FastAPI (optional)
 
-## 📋 Table of Contents
-
-- [Installation](#installation)
-- [Project Structure](#project-structure)
-- [Usage](#usage)
-- [Data Requirements](#data-requirements)
-- [Dependencies](#dependencies)
-- [API Documentation](#api-documentation)
-- [License](#license)
-- [Author](#author)
 
 ## 🛠️ Installation
 
