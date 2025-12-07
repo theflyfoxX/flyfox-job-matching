@@ -155,15 +155,11 @@ Edit `config.yaml` to customize:
 - The virtual environment (`wrangler-env/`) is excluded from version control
 - GPU acceleration recommended for embedding generation and model training
 
-## 📜 License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## 👤 Author
 
 **Ali Rassas**
 
-- 📧 Email: [rassasali01@gmail.com](mailto:rassasali01@gmail.com)
 - 🔗 GitHub: [@theflyfoxX](https://github.com/theflyfoxX)
 
 
